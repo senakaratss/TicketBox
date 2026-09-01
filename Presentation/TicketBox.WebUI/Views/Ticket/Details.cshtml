@@ -1,0 +1,76 @@
+﻿@using TicketBox.Application.Features.Tickets.Results
+@using TicketBox.Domain.Enums
+@model GetMyTicketDetailsQueryResult
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    ViewData["ActiveNav"] = "MyTickets";
+}
+
+@{
+    var statusBadge = Model.Status switch
+    {
+        TicketStatus.Active => "badge-success",
+        TicketStatus.Used => "badge-muted",
+        _ => "badge-danger"
+    };
+}
+
+<section class="section">
+    <div class="container">
+        <div style="max-width:460px; margin:0 auto 20px; display:flex; justify-content:space-between; align-items:center;">
+            <a class="btn btn-ghost btn-sm" href="/Ticket/MyTickets">← Back</a>
+            <span class="badge @statusBadge">● @Model.Status</span>
+        </div>
+
+        <div class="ticket">
+            <div class="t-cover">
+                <img src="@Model.EventImageUrl" alt="@Model.EventName">
+                <div class="t-cover-fade"></div>
+                <div class="t-brand">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <path d="M4 8.2C4 6.98 4.98 6 6.2 6h11.6C18.98 6 20 6.98 20 8.2v1.35a1.2 1.2 0 0 0 0 2.3v1.35c0 1.2-.98 2.2-2.2 2.2H6.2A2.2 2.2 0 0 1 4 13.1v-1.25a1.2 1.2 0 0 0 0-2.3V8.2z" fill="#FFFFFF" fill-opacity="0.96" />
+                        <path d="M12 6.4v9.2" stroke="#0A0B10" stroke-width="1.3" stroke-dasharray="1.6 1.8" stroke-linecap="round" />
+                    </svg>
+                    TicketBox
+                </div>
+            </div>
+
+            <div class="t-body">
+                <span class="badge badge-violet mb-16" style="margin-top:-30px; position:relative;">@Model.CategoryName</span>
+                <div class="t-title">@Model.EventName</div>
+                <div class="t-sub">@Model.EventLocation</div>
+
+                <div class="t-grid mt-16">
+                    <div class="t-item"><span>Date</span><b>@Model.EventDate.ToString("dd MMM yyyy")</b></div>
+                    <div class="t-item"><span>Time</span><b>@Model.EventDate.ToString("HH:mm")</b></div>
+                    <div class="t-item" style="grid-column:1/-1;"><span>Location</span><b>@Model.EventLocation</b></div>
+                    <div class="t-item"><span>Holder</span><b>@Model.Holder</b></div>
+                    <div class="t-item">
+                        <span>Seat</span><b>
+                            @(string.IsNullOrEmpty(Model.SeatNumber) ? "General Admission" : Model.SeatNumber)
+                        </b>
+                    </div>
+                    <div class="t-item"><span>Email</span><b style="font-size:13px;">@Model.HolderEmail</b></div>
+                </div>
+            </div>
+
+            <div class="t-perforation"></div>
+
+            <div class="t-stub">
+                <div><div class="t-serial">SERIAL<br><b style="color:var(--text); font-size:14px;">@Model.SerialNumber</b></div></div>
+                <div>
+                    <img src="data:image/png;base64,@Model.QRCode"
+                         alt="Ticket QR Code"
+                         width="92"
+                         height="92" />
+                </div>
+            </div>
+        </div>
+
+        <div style="max-width:460px; margin:20px auto 0; display:flex; gap:12px;">
+            <a class="btn btn-secondary btn-block" href="javascript:window.print()">⬇ Save / Print</a>
+            <a class="btn btn-ghost btn-block" href="/Event/Details/@Model.EventId">View Event</a>
+        </div>
+    </div>
+</section>

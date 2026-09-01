@@ -1,0 +1,83 @@
+﻿@using System.Linq
+@{
+    var isAuthenticated = User.Identity?.IsAuthenticated ?? false;
+    var userName = User.Identity?.Name ?? "Guest";
+    var active = ViewData["ActiveNav"] as string ?? "";
+    string NavClass(string key) => active == key ? "nav-link active" : "nav-link";
+    var initials = string.Concat(userName.Split(' ', System.StringSplitOptions.RemoveEmptyEntries)
+                        .Select(w => w[0])).ToUpperInvariant();
+    if (initials.Length > 2) initials = initials[..2];
+}
+
+<div class="navbar">
+    <input type="checkbox" id="nav-toggle">
+    <div class="container">
+        <div class="navbar-inner">
+            <a class="logo" href="/" style="cursor:pointer;">
+                <div class="logo-mark">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <path d="M4 8.2C4 6.98 4.98 6 6.2 6h11.6C18.98 6 20 6.98 20 8.2v1.35a1.2 1.2 0 0 0 0 2.3v1.35c0 1.2-.98 2.2-2.2 2.2H6.2A2.2 2.2 0 0 1 4 13.1v-1.25a1.2 1.2 0 0 0 0-2.3V8.2z" fill="#FFFFFF" fill-opacity="0.96" />
+                        <path d="M12 6.4v9.2" stroke="#0A0B10" stroke-width="1.3" stroke-dasharray="1.6 1.8" stroke-linecap="round" />
+                    </svg>
+                </div>
+
+                TicketBox
+            </a>
+
+            <div class="nav-links">
+                <a class="@NavClass("Home")" href="/Home/Index/">Home</a>
+                <a class="@NavClass("Events")" href="/Event/EventList">Events</a>
+                @if (isAuthenticated)
+                {
+                    <a class="@NavClass("MyTickets")" href="/Ticket/MyTickets">My Tickets</a>
+                    <a class="@NavClass("MyBookings")" href="/Booking/MyBookings">My Bookings</a>
+                    <a class="@NavClass("Profile")" href="/Profile/Index">Profile</a>
+                }
+            </div>
+
+            <div class="nav-right">
+                @if (isAuthenticated)
+                {
+                    <details class="nav-user">
+                        <summary class="nav-user-trigger" style="display:flex; align-items:center; gap:10px; padding:6px 8px 6px 14px; border-radius:999px; background:var(--surface-2); border:1px solid var(--border);">
+                            <div class="avatar">@initials</div>
+                            <span class="uname" style="font-size:14px; font-weight:600;">@userName</span>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6" /></svg>
+                        </summary>
+                        <div class="user-dropdown">
+                            <a href="/Profile/Profile">👤 Profile</a>
+                            <a href="/Ticket/MyTickets">🎟️ My Tickets</a>
+                            <a href="/Booking/MyBookings">📑 My Bookings</a>
+                            <a href="/Account/EventHistory">🕘 Event History</a>
+                            <hr class="dashed" style="margin:6px 0;">
+                            <a href="/Auth/Logout" style="color:var(--danger);">↩ Logout</a>
+                        </div>
+                    </details>
+                }
+                else
+                {
+                    <a class="btn btn-ghost btn-sm" href="/Auth/Login">Login</a>
+                    <a class="btn btn-primary btn-sm" href="/Auth/Register">Register</a>
+                }
+                <label class="hamburger" for="nav-toggle">☰</label>
+            </div>
+        </div>
+
+        <div class="mobile-menu">
+            <a href="/">Home</a>
+            <a href="/Events">Events</a>
+            @if (isAuthenticated)
+            {
+                <a href="/Account/MyTickets">My Tickets</a>
+                <a href="/Account/MyBookings">My Bookings</a>
+                <a href="/Account/Profile">Profile</a>
+                <a href="/Auth/Logout" style="color:var(--danger);">Logout</a>
+            }
+            else
+            {
+                <a href="/Auth/Login">Login</a>
+                <a href="/Auth/Register">Register</a>
+            }
+        </div>
+    </div>
+</div>

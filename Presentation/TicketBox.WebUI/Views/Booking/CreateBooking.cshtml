@@ -1,0 +1,272 @@
+﻿@using TicketBox.Application.Features.Events.Results
+@model GetEventByIdQueryResult
+@{
+    ViewData["Title"] = "Checkout";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    var ev = Model;
+    const decimal serviceFee = 25m;
+}
+@{
+    var seatNumbers = (ViewBag.SeatNumbers as string)?
+                    .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                    .Select(x => x.Trim())
+                    .ToList()
+                    ?? new List<string>();
+
+
+    var ticketQuantity = seatNumbers?.Count ?? 1;
+}
+<section class="section">
+    <div class="container">
+        <span class="eyebrow">SECURE CHECKOUT</span>
+        <h1 class="mt-16 mb-24" style="font-size:32px;">Complete your booking</h1>
+        <div class="detail-grid">
+            <div class="panel">
+                <div style="display:flex; gap:18px; align-items:flex-start;">
+                    <img src="@ev.ImageUrl" style="width:120px; height:90px; object-fit:cover; border-radius:12px; flex-shrink:0;">
+                    <div>
+                        <h3 style="font-size:18px;">@ev.Title</h3>
+                        <div class="meta-row mt-8">📅 @ev.EventDate.ToString("dd MMM yyyy") · @ev.EventDate.ToString("HH:mm")</div>
+                        <div class="meta-row">📍 @ev.Location</div>
+                    </div>
+                </div>
+                <hr class="dashed">
+                <h3 class="mb-16" style="font-size:16px;">Payment details</h3>
+
+                <!-- Live card preview -->
+                <div class="card-preview-wrap">
+                    <div class="card-preview" id="cardPreview">
+                        <div class="card-face card-front">
+                            <div class="card-top">
+                                <span class="card-chip">
+                                    <svg width="34" height="26" viewBox="0 0 34 26" fill="none">
+                                        <rect x="0.5" y="0.5" width="33" height="25" rx="4" fill="#E9CE7F" stroke="#C9A94F" />
+                                        <line x1="0" y1="8.5" x2="34" y2="8.5" stroke="#C9A94F" />
+                                        <line x1="0" y1="17.5" x2="34" y2="17.5" stroke="#C9A94F" />
+                                        <line x1="11" y1="0" x2="11" y2="26" stroke="#C9A94F" />
+                                        <line x1="23" y1="0" x2="23" y2="26" stroke="#C9A94F" />
+                                    </svg>
+                                </span>
+                                <span class="card-brand" id="cardBrand">CARD</span>
+                            </div>
+                            <div class="card-number" id="cardPreviewNumber">•••• •••• •••• ••••</div>
+                            <div class="card-bottom">
+                                <div>
+                                    <div class="card-label">Card holder</div>
+                                    <div class="card-value" id="cardPreviewHolder">FULL NAME</div>
+                                </div>
+                                <div>
+                                    <div class="card-label">Expires</div>
+                                    <div class="card-value" id="cardPreviewExpiry">MM/YY</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-face card-back">
+                            <div class="card-stripe"></div>
+                            <div class="card-cvv-row">
+                                <span class="card-cvv-label">CVV</span>
+                                <span class="card-cvv-box" id="cardPreviewCvv">•••</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Card number</label>
+                    <div class="input-icon-wrap">
+                        <input class="input" name="CardNumber" id="cardNumberInput" placeholder="1234 5678 9012 3456" inputmode="numeric" maxlength="19" autocomplete="cc-number" required>
+                        <svg class="input-icon" width="22" height="16" viewBox="0 0 22 16" fill="none">
+                            <rect x="0.5" y="0.5" width="21" height="15" rx="2.5" stroke="currentColor" opacity="0.35" />
+                            <line x1="0.5" y1="5" x2="21.5" y2="5" stroke="currentColor" opacity="0.35" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Name on card</label>
+                    <input class="input" name="CardHolder" id="cardHolderInput" placeholder="Full name as shown on card" autocomplete="cc-name" required>
+                </div>
+                <div class="form-row-2">
+                    <div class="field">
+                        <label>Expiry date</label>
+                        <input class="input" name="CardExpiry" id="cardExpiryInput" placeholder="MM/YY" inputmode="numeric" maxlength="5" autocomplete="cc-exp" required>
+                    </div>
+                    <div class="field">
+                        <label>CVV</label>
+                        <input class="input" name="CardCvv" id="cardCvvInput" placeholder="123" inputmode="numeric" maxlength="4" autocomplete="cc-csc" required>
+                    </div>
+                </div>
+                <p class="muted" style="font-size:12.5px;">🔒 Payments are encrypted and processed securely.</p>
+            </div>
+            <div class="sticky-box">
+                <div class="panel">
+                    @if (seatNumbers.Any())
+                    {
+                        <div class="mb-16">
+                            <div class="muted" style="font-size:12.5px;">
+                                Selected Seats
+                            </div>
+                            <div style="font-size:16px;font-weight:700;margin-top:6px">
+                                @string.Join(", ",seatNumbers)
+                            </div>
+                        </div>
+                        <hr class="dashed" />
+                    }
+                    <div class="flex-between mb-8">
+                        <div><h3 style="font-size:16px;">Ticket quantity</h3><span class="muted" style="font-size:12.5px;">Up to 8 per booking</span></div>
+                        <div class="qty-stepper">
+                            <button type="button" id="qtyMinus" class="qty-btn">−</button>
+                            <span id="qtyDisplay" style="font-weight:700; font-size:18px; min-width:20px; text-align:center;">@ticketQuantity</span>
+                            <button type="button" id="qtyPlus" class="qty-btn">+</button>
+                        </div>
+                    </div>
+                    <hr class="dashed">
+                    <div class="price-row"><span id="qtyLine">1 × Ticket (₺@ev.Price.ToString("N0"))</span><span id="subtotalLine">₺@ev.Price.ToString("N0")</span></div>
+                    <div class="price-row"><span>Service fee</span><span>₺@serviceFee.ToString("N0")</span></div>
+                    <div class="price-row total"><span>Total</span><span id="totalLine">₺@((ev.Price + serviceFee).ToString("N0"))</span></div>
+                    <form method="post">
+                        <input type="hidden" name="EventId" value="@ev.EventId">
+                        <input type="hidden" name="TicketQuantity" id="qtyInput" value="@ticketQuantity">
+                        @foreach (var seat in seatNumbers)
+                        {
+                            <input type="hidden"
+                                   name="SeatNumbers"
+                                   value="@seat" />
+                        }
+                        <button type="submit" class="btn btn-amber btn-block mt-24" style="padding:16px; font-size:16px;">🔒 Confirm Booking</button>
+                    </form>
+                    <p class="muted mt-16" style="font-size:12px; text-align:center;">Payment not wired up yet — this is the design layer only.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        var price = @ev.Price.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        var fee = @serviceFee.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        var qty = @ticketQuantity;
+        var hasSeatSelection = @(seatNumbers != null && seatNumbers.Any() ? "true" : "false");
+
+        var qtyDisplay = document.getElementById("qtyDisplay");
+        var qtyInput = document.getElementById("qtyInput");
+        var qtyLine = document.getElementById("qtyLine");
+        var subtotalLine = document.getElementById("subtotalLine");
+        var totalLine = document.getElementById("totalLine");
+
+        var minusBtn = document.getElementById("qtyMinus");
+        var plusBtn = document.getElementById("qtyPlus");
+
+        function formatNumber(n) {
+            return n.toLocaleString("tr-TR");
+        }
+
+        // When the values change,refresh the screen
+        function render() {
+
+            var subtotal = price * qty;
+            var total = subtotal + fee;
+
+            qtyDisplay.textContent = qty;
+            qtyInput.value = qty;
+
+            qtyLine.textContent =
+                qty + " × Ticket (₺" + formatNumber(price) + ")";
+
+            subtotalLine.textContent =
+                "₺" + formatNumber(subtotal);
+
+            totalLine.textContent =
+                "₺" + formatNumber(total);
+
+            if(hasSeatSelection){
+
+                minusBtn.disabled=true;
+                plusBtn.disabled=true;
+            }else{
+                //General Admission
+                minusBtn.disabled = qty <= 1;
+                plusBtn.disabled = qty >= 8;
+             }
+
+        }
+
+        plusBtn.addEventListener("click", function () {
+            if (!hasSeatSelection && qty < 8) {
+                qty++;
+                render();
+            }
+        });
+
+        minusBtn.addEventListener("click", function () {
+            if (!hasSeatSelection && qty > 1) {
+                qty--;
+                render();
+            }
+        });
+
+        render();
+
+        // --- Live card preview logic ---
+        var cardPreview = document.getElementById("cardPreview");
+        var cardBrand = document.getElementById("cardBrand");
+        var previewNumber = document.getElementById("cardPreviewNumber");
+        var previewHolder = document.getElementById("cardPreviewHolder");
+        var previewExpiry = document.getElementById("cardPreviewExpiry");
+        var previewCvv = document.getElementById("cardPreviewCvv");
+
+        var numberInput = document.getElementById("cardNumberInput");
+        var holderInput = document.getElementById("cardHolderInput");
+        var expiryInput = document.getElementById("cardExpiryInput");
+        var cvvInput = document.getElementById("cardCvvInput");
+
+        function detectBrand(digits) {
+            if (/^4/.test(digits)) return "VISA";
+            if (/^5[1-5]/.test(digits) || /^2[2-7]/.test(digits)) return "MASTERCARD";
+            if (/^3[47]/.test(digits)) return "AMEX";
+            if (/^6(?:011|5)/.test(digits)) return "DISCOVER";
+            return "CARD";
+        }
+
+        numberInput.addEventListener("input", function () {
+            var digits = numberInput.value.replace(/\D/g, "").slice(0, 16);
+            var groups = digits.match(/.{1,4}/g) || [];
+            numberInput.value = groups.join(" ");
+
+            var display = digits.padEnd(16, "•");
+            var displayGroups = display.match(/.{1,4}/g) || [];
+            previewNumber.textContent = displayGroups.join(" ");
+
+            cardBrand.textContent = detectBrand(digits);
+        });
+
+        holderInput.addEventListener("input", function () {
+            previewHolder.textContent = holderInput.value.trim() ? holderInput.value.toUpperCase() : "FULL NAME";
+        });
+
+        expiryInput.addEventListener("input", function () {
+            var digits = expiryInput.value.replace(/\D/g, "").slice(0, 4);
+            if (digits.length >= 3) {
+                expiryInput.value = digits.slice(0, 2) + "/" + digits.slice(2);
+            } else {
+                expiryInput.value = digits;
+            }
+            previewExpiry.textContent = expiryInput.value || "MM/YY";
+        });
+
+        cvvInput.addEventListener("input", function () {
+            var digits = cvvInput.value.replace(/\D/g, "").slice(0, 4);
+            cvvInput.value = digits;
+            previewCvv.textContent = digits.padEnd(3, "•");
+        });
+
+        cvvInput.addEventListener("focus", function () {
+            cardPreview.classList.add("flipped");
+        });
+        cvvInput.addEventListener("blur", function () {
+            cardPreview.classList.remove("flipped");
+        });
+    });
+</script>

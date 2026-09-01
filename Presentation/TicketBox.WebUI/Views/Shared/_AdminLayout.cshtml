@@ -1,0 +1,69 @@
+﻿@{
+    // Each view sets: ViewData["Title"], ViewData["Subtitle"] (optional), ViewData["ActiveNav"]
+    var active = ViewData["ActiveNav"] as string ?? "";
+    string NavClass(string key) => active == key ? "active" : "";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@(ViewData["Title"] ?? "Admin") — TicketBox Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    <!-- CSS-only mobile sidebar toggle (no JS required) -->
+    <input type="checkbox" id="sidebar-toggle" class="sidebar-toggle-input">
+
+    <div class="admin-shell">
+        <label for="sidebar-toggle" class="sidebar-overlay"></label>
+
+        <aside class="admin-sidebar">
+            <div class="admin-logo">
+                <div class="logo-mark">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <path d="M4 8.2C4 6.98 4.98 6 6.2 6h11.6C18.98 6 20 6.98 20 8.2v1.35a1.2 1.2 0 0 0 0 2.3v1.35c0 1.2-.98 2.2-2.2 2.2H6.2A2.2 2.2 0 0 1 4 13.1v-1.25a1.2 1.2 0 0 0 0-2.3V8.2z" fill="#221200" fill-opacity="0.85" />
+                        <path d="M12 6.4v9.2" stroke="#FFF7E8" stroke-width="1.3" stroke-dasharray="1.6 1.8" stroke-linecap="round" />
+                    </svg>
+                </div>
+                TicketBox <span class="muted" style="font-weight:500; font-size:13px; margin-left:2px;">Admin</span>
+            </div>
+
+            <nav class="admin-nav">
+                <a class="@NavClass("Dashboard")" href="/Admin/Dashboard">📊 <span>Dashboard</span></a>
+                <a class="@NavClass("Events")" href="/Admin/Event/EventList">🎫 <span>Events</span></a>
+                <a class="@NavClass("Categories")" href="/Admin/Category/CategoryList">🏷️ <span>Categories</span></a>
+                <a class="@NavClass("Bookings")" href="/Admin/Booking/BookingList">📑 <span>Bookings</span></a>
+                <a class="@NavClass("Tickets")" href="/Admin/Ticket/TicketList">🎟️ <span>Tickets</span></a>
+                <a class="@NavClass("Users")" href="/Admin/User/UserList">👥 <span>Users</span></a>
+                <hr class="dashed">
+                <a href="/" style="color:var(--danger);">↩ <span>Exit to site</span></a>
+            </nav>
+        </aside>
+
+        <main class="admin-main">
+            <div class="admin-topbar">
+                <div class="flex-gap">
+                    <label for="sidebar-toggle" class="admin-mobile-toggle">☰</label>
+                    <div>
+                        <h1>@ViewData["Title"]</h1>
+                        @if (ViewData["Subtitle"] != null)
+                        {
+                            <p class="muted mt-8" style="font-size:14px;">@ViewData["Subtitle"]</p>
+                        }
+                    </div>
+                </div>
+                <div class="flex-gap">
+                    <div class="avatar" style="background:var(--surface-3); color:var(--text);">AD</div>
+                    <span style="font-weight:600; font-size:14px;">Admin</span>
+                </div>
+            </div>
+
+            @RenderBody()
+        </main>
+    </div>
+</body>
+</html>

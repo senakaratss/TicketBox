@@ -1,0 +1,30 @@
+﻿@using TicketBox.Application.Features.Events.Results
+@model List<EventCardQueryResult>
+
+<section class="section" style="padding-top:0;">
+    <div class="container">
+        <div class="section-head"><h2>Featured Events</h2><a class="btn btn-ghost btn-sm" href="/Events">View all →</a></div>
+        <div class="grid-events">
+            @foreach (var item in Model)
+            {
+                <a class="event-card" href="/Event/Details/@item.EventId">
+                    <div class="thumb">
+                        <img src="@item.ImageUrl" alt="@item.Title" loading="lazy">
+                        <span class="badge badge-violet cat-badge">@item.CategoryIcon @item.CategoryName</span>
+                        <span class="price-badge">₺@item.Price.ToString("N0")</span>
+                    </div>
+                    <div class="body">
+                        <h3>@item.Title</h3>
+                        <div class="meta-row">📅 @item.EventDate.ToString("dd MMM yyyy") &nbsp;·&nbsp; 
+                            🕐 @item.EventDate.ToString("HH:mm")</div>
+                        <div class="meta-row">📍 @item.Location</div>
+                    </div>
+                    <div class="stub">
+                        <span class="mono muted" style="font-size:12px;">@item.RemainingTickets seats left</span>
+                        <span class="btn btn-primary btn-sm">View Details</span>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+</section>

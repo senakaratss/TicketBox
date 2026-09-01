@@ -1,0 +1,39 @@
+﻿@using TicketBox.Application.Features.Categories.Results
+@model List<GetCategoriesQueryResult>
+@{
+    ViewData["Title"] = "Category Management";
+    ViewData["Subtitle"] = "Organize how events are grouped";
+    ViewData["ActiveNav"] = "Categories";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="panel">
+    <div class="flex-between mb-16">
+        <span class="muted" style="font-size:14px;">@Model.Count categories</span>
+        <a class="btn btn-primary btn-sm" href="/Admin/Category/CreateCategory">+ Add Category</a>
+    </div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr><th>Icon</th><th>Name</th><th>Usage</th><th></th></tr>
+            </thead>
+            <tbody>
+                @foreach (var c in Model)
+                {
+                    <tr class="row-hover">
+                        <td style="font-size:20px;">@c.Icon</td>
+                        <td class="td-title">@c.CategoryName</td>
+                        <td>@c.EventsCount events</td>
+                        <td style="text-align:right;">
+                            <a class="btn btn-secondary btn-sm" href="/Admin/Category/UpdateCategory/@c.CategoryId">Edit</a>
+                            <a class="btn btn-danger btn-sm" href="/Admin/Category/DeleteCategory/@c.CategoryId">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

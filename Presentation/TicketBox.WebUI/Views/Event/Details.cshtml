@@ -1,0 +1,65 @@
+﻿@using TicketBox.Application.Features.Events.Results
+@model GetEventByIdQueryResult
+@{
+    ViewData["Title"] = Model.Title;
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@{
+    var pct = Model.Capacity > 0 ? System.Math.Min(100, (int)((Model.RemainingTickets * 100L) / Model.Capacity)) : 0;
+    var isAuthenticated = User.Identity?.IsAuthenticated ?? false;
+
+    var bookingUrl = Model.HasSeatSelection ? $"/Booking/SelectSeats/{Model.EventId}"
+                                            : $"/Booking/CreateBooking?eventId={Model.EventId}";
+
+    var bookHref = isAuthenticated
+        ? bookingUrl
+        : $"/Auth/Login?returnUrl=/Booking/CreateBooking/{Model.EventId}";
+}
+
+<section class="section">
+    <div class="container">
+        <div class="detail-hero">
+            <img src="@Model.ImageUrl" alt="@Model.Title">
+            <div class="overlay"></div>
+            <div class="overlay-content">
+                <span class="badge badge-violet mb-16">@Model.CategoryIcon @Model.CategoryName</span>
+                <h1 style="font-size:34px;">@Model.Title</h1>
+            </div>
+        </div>
+
+        <div class="detail-grid">
+            <div>
+                <div class="info-grid">
+                    <div class="info-item"><span class="ic">📅</span><div><b>@Model.EventDate.ToString("dddd, d MMMM yyyy")</b><span>Event date</span></div></div>
+                    <div class="info-item"><span class="ic">🕐</span><div><b>@Model.EventDate.ToString("HH:mm")</b><span>Doors / start time</span></div></div>
+                    <div class="info-item"><span class="ic">📍</span><div><b>@Model.Location</b><span>Venue</span></div></div>
+                    <div class="info-item"><span class="ic">👥</span><div><b>@Model.Capacity.ToString("N0")</b><span>Capacity</span></div></div>
+                </div>
+
+                <h3 class="mt-32 mb-16">About this event</h3>
+                <p class="muted" style="line-height:1.75;">@Model.Description</p>
+            </div>
+
+            <div class="sticky-box">
+                <div class="panel">
+                    <div class="flex-between mb-16">
+                        <span class="muted" style="font-size:13px;">Starting from</span>
+                        <span style="font-family:var(--font-display); font-size:28px;">₺@Model.Price.ToString("N0")</span>
+                    </div>
+                    <div class="muted" style="font-size:13px;">Popularity</div>
+                    <div class="progress-bar"><div style="width:@(pct)%;"></div></div>
+                    <div class="flex-between mt-8" style="font-size:12.5px;">
+                        <span class="muted">@Model.SoldTickets.ToString("N0") booked</span>
+                        <span class="muted">@pct% of capacity</span>
+                    </div>
+                    <a class="btn btn-amber btn-block mt-24" href="@bookHref" style="font-size:16px; padding:16px;">🎟 Book Now</a>
+                    <p class="muted mt-16" style="font-size:12px; text-align:center;">
+                        @(isAuthenticated ? "You're logged in — booking takes under a minute." : "You'll be asked to log in before checkout.")
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

@@ -1,0 +1,53 @@
+﻿@using TicketBox.Application.Features.Users.Results
+@model List<GetUsersQueryResult>
+@{
+    ViewData["Title"] = "User Management";
+    ViewData["Subtitle"] = "Registered platform users";
+    ViewData["ActiveNav"] = "Users";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="panel">
+    <div class="flex-between mb-16">
+        <span class="muted" style="font-size:14px;">@Model.Count users</span>
+    </div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr><th>Name</th><th>Username</th><th>Email</th><th>Bookings</th><th>Tickets</th><th>Email Status</th><th></th></tr>
+            </thead>
+            <tbody>
+                @foreach (var u in Model)
+                {
+                    <tr class="row-hover">
+                        <td>
+                            <div class="flex-gap">
+                                <div class="avatar">@($"{u.Name[0]}{u.Surname[0]}")</div>
+                                <div class="td-title">@u.Name @u.Surname</div>
+                            </div>
+                        </td>
+                        <td class="muted">@u.Username</td>
+                        <td class="muted">@u.Email</td>
+                        <td>@u.BookingCount Bookings</td>
+                        <td>@u.TicketCount Tickets</td>
+                        <td>
+                           @if (u.EmailConfirmed)
+                            {
+                                <span class="badge badge-success">● Verified</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-danger">● Unverified</span>
+                            } 
+                        </td>
+                        <td style="text-align:right;">
+                            <a class="btn btn-secondary btn-sm" href="/Admin/User/UserDetails/@u.Id">View</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

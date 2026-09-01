@@ -1,0 +1,53 @@
+﻿@using TicketBox.Application.Features.Users.Commands
+@model ConfirmEmailCommand
+@{
+    ViewData["Title"] = "Confirm Email";
+    ViewData["HideFooter"] = true;
+    ViewData["ActiveNav"] = "";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<div class="auth-wrap">
+    <div class="auth-card">
+        <div class="auth-head">
+            <div class="logo" style="justify-content:center; margin-bottom:18px;">
+                <div class="logo-mark">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <path d="M4 8.2C4 6.98 4.98 6 6.2 6h11.6C18.98 6 20 6.98 20 8.2v1.35a1.2 1.2 0 0 0 0 2.3v1.35c0 1.2-.98 2.2-2.2 2.2H6.2A2.2 2.2 0 0 1 4 13.1v-1.25a1.2 1.2 0 0 0 0-2.3V8.2z" fill="#FFFFFF" fill-opacity="0.96" />
+                        <path d="M12 6.4v9.2" stroke="#0A0B10" stroke-width="1.3" stroke-dasharray="1.6 1.8" stroke-linecap="round" />
+                    </svg>
+                </div>
+                TicketBox
+            </div>
+            <span class="eyebrow" style="justify-content:center; width:100%; margin-bottom:10px;">E-POSTA DOĞRULAMA</span>
+            <h1>E-postanı onayla</h1>
+            <p class="muted">Adresine bir doğrulama kodu gönderdik. Hesabını aktifleştirmek için aşağıya girip onayla.</p>
+        </div>
+        <div class="panel">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <form method="post">
+                <div class="field">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="input" placeholder="you@example.com" autocomplete="email">
+                </div>
+                <div class="field">
+                    <label asp-for="ConfirmCode"></label>
+                    <input asp-for="ConfirmCode" class="input mono" placeholder="○ ○ ○ ○" autocomplete="one-time-code" inputmode="numeric" maxlength="4"
+                           style="text-align:center; font-size:22px; letter-spacing:10px; padding:13px 12px;">
+                    <span asp-validation-for="ConfirmCode" class="text-danger" style="display:block; font-size:12.5px; margin-top:6px;"></span>
+                </div>
+                <button class="btn btn-primary btn-block" type="submit" style="padding:15px;">Hesabı Doğrula</button>
+            </form>
+
+            <div class="divider-or">VEYA</div>
+
+            <div class="flex-between">
+                <span class="badge badge-muted mono" style="font-size:11.5px;">Kod 10 dk geçerli</span>
+                <a asp-action="ResendConfirmationCode" asp-controller="Account" style="color:var(--violet); font-weight:600; font-size:13.5px;">Kodu tekrar gönder</a>
+            </div>
+
+            <p class="muted mt-24" style="text-align:center; font-size:14px;">
+                <a href="/Auth/Login" style="color:var(--violet); font-weight:600;">Girişe dön</a>
+            </p>
+        </div>
+    </div>
+</div>

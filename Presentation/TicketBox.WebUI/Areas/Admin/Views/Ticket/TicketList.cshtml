@@ -1,0 +1,46 @@
+﻿@using TicketBox.Application.Features.Tickets.Results
+@using TicketBox.Domain.Enums
+@model List<GetAllTicketsQueryResult>
+@{
+    ViewData["Title"] = "Ticket Management";
+    ViewData["Subtitle"] = "Issued tickets across all events";
+    ViewData["ActiveNav"] = "Tickets";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@{
+    string BadgeClass(TicketStatus status) => status switch
+    {
+        TicketStatus.Active => "badge-success",
+        TicketStatus.Used => "badge-muted",
+        _ => "badge-danger",
+    };
+}
+
+<div class="panel">
+    <div class="flex-between mb-16">
+        <span class="muted" style="font-size:14px;">@Model.Count tickets</span>
+    </div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr><th>Serial</th><th>Event</th><th>Holder</th><th>Seat</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var t in Model)
+                {
+                    <tr class="row-hover">
+                        <td class="mono">@t.SerialNumber</td>
+                        <td class="td-title">@t.EventName</td>
+                        <td>@t.Holder</td>
+                        <td>@(string.IsNullOrEmpty(t.SeatNumber) ? "General Admission" : t.SeatNumber)</td>
+                        <td><span class="badge @BadgeClass(t.Status)">● @t.Status</span></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

@@ -1,0 +1,47 @@
+﻿@using TicketBox.Application.Features.Users.Results
+@model GetUserByIdQueryResult
+@{
+    ViewData["Title"] = Model.Name + " " + Model.Surname;
+    ViewData["Subtitle"] = "User details";
+    ViewData["ActiveNav"] = "Users";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<a class="btn btn-ghost btn-sm mb-16" href="/Admin/User/UserList">← Back to users</a>
+
+<div class="panel" style="max-width:560px;">
+    <div class="flex-gap mb-24">
+        <div class="avatar" style="width:56px; height:56px; font-size:18px;">@($"{Model.Name[0]}{Model.Surname[0]}")</div>
+        <div>
+            <h3 style="font-size:18px;">@Model.Name @Model.Surname</h3>
+            <span class="muted" style="font-size:13.5px;">@@@Model.Username</span>
+        </div>
+        @if (Model.EmailConfirmed)
+        {
+            <span class="badge badge-success" style="margin-left:auto;">● Verified</span>
+        }
+        else
+        {
+            <span class="badge badge-danger" style="margin-left:auto;">● Unverified</span>
+        }
+    </div>
+
+    <hr class="dashed">
+
+    <div class="flex-between" style="padding:10px 0;"><span class="muted">Email</span><span>@Model.Email</span></div>
+    <div class="flex-between" style="padding:10px 0;"><span class="muted">Phone</span><span>@Model.Phone</span></div>
+    <div class="flex-between" style="padding:10px 0;"><span class="muted">Total bookings</span><span>Model.Bookings</span></div>
+    <div class="flex-between" style="padding:10px 0;"><span class="muted">Active tickets</span><span>Model.Tickets</span></div>
+
+    <div class="flex-gap mt-24">
+        @if (Model.EmailConfirmed)
+        {
+            <button type="button" class="btn btn-danger">Verified User</button>
+        }
+        else
+        {
+            <button type="button" class="btn btn-primary">Unverified User</button>
+        }
+    </div>
+</div>
+

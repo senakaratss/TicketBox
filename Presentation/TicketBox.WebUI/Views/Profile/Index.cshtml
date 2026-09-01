@@ -1,0 +1,197 @@
+﻿@using TicketBox.Application.Features.Users.Results
+@model GetMyProfileQueryResult
+@{
+    ViewData["Title"] = "My Profile";
+    ViewData["ActiveNav"] = "Profile";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+
+    var initials = (Model.Name.Length > 0 ? Model.Name[0].ToString() : "") + (Model.Surname.Length > 0 ? Model.Surname[0].ToString() : "");
+}
+
+<section class="section profile-page">
+    <div class="container" style="max-width:960px;">
+        <span class="eyebrow">ACCOUNT</span>
+        <h1 class="mt-16 mb-24" style="font-size:32px;">My Profile</h1>
+
+        <div class="profile-grid">
+
+            <div class="panel profile-panel">
+                <div class="profile-panel-head">
+                    <span class="profile-panel-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    </span>
+                    <div>
+                        <h3 style="font-size:16px; margin:0;">Profile Information</h3>
+                        <span class="muted" style="font-size:12.5px;">Your personal and contact details</span>
+                    </div>
+                </div>
+
+                <div class="profile-panel-divider"></div>
+
+                @if (TempData["Success"] != null)
+                {
+                    <div class="badge badge-success mb-16">
+                        @TempData["Success"]
+                    </div>
+                }
+
+                @if (TempData["Error"] != null)
+                {
+                    <div class="badge badge-danger mb-16">
+                        @TempData["Error"]
+                    </div>
+                }
+
+                <form method="post" asp-action="EditProfile">
+                    <div class="flex-gap mb-24">
+                        <div class="avatar profile-avatar">@initials.ToUpperInvariant()</div>
+                        <div>
+                            <h3 style="margin:0;">@Model.Name @Model.Surname</h3>
+                            <span class="muted" style="font-size:13.5px;">@@@Model.Username</span>
+                        </div>
+                    </div>
+
+                    <div class="form-row-2">
+                        <div class="field">
+                            <label asp-for="Name"></label>
+                            <input asp-for="Name" class="input">
+                        </div>
+                        <div class="field">
+                            <label asp-for="Surname"></label>
+                            <input asp-for="Surname" class="input">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label asp-for="Email"></label>
+                        <input asp-for="Email" class="input">
+                    </div>
+
+                    <div class="form-row-2">
+                        <div class="field">
+                            <label asp-for="Username"></label>
+                            <input asp-for="Username" class="input">
+                        </div>
+                        <div class="field">
+                            <label asp-for="Phone"></label>
+                            <input asp-for="Phone" class="input">
+                        </div>
+                    </div>
+
+                    <button class="btn btn-secondary" type="submit">Edit Profile</button>
+                </form>
+            </div>
+
+            <div class="panel profile-panel">
+                <div class="profile-panel-head">
+                    <span class="profile-panel-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    </span>
+                    <div>
+                        <h3 style="font-size:16px; margin:0;">Change Password</h3>
+                        <span class="muted" style="font-size:12.5px;">Use a strong password you don't use anywhere else</span>
+                    </div>
+                </div>
+
+                <div class="profile-panel-divider"></div>
+
+                @if (TempData["PasswordSuccess"] != null)
+                {
+                    <div class="badge badge-success mb-16">@TempData["PasswordSuccess"]</div>
+                }
+                @if (TempData["PasswordError"] != null)
+                {
+                    <div class="badge badge-danger mb-16">@TempData["PasswordError"]</div>
+                }
+
+                <form method="post" asp-action="ChangePassword">
+                    <div class="field">
+                        <label for="CurrentPassword">Current Password</label>
+                        <input type="password" id="CurrentPassword" name="CurrentPassword" class="input" placeholder="••••••••">
+                    </div>
+                    <div class="field">
+                        <label for="NewPassword">New Password</label>
+                        <input type="password" id="NewPassword" name="NewPassword" class="input" placeholder="••••••••">
+                    </div>
+                    <div class="field">
+                        <label for="ConfirmNewPassword">Confirm New Password</label>
+                        <input type="password" id="ConfirmNewPassword" name="ConfirmNewPassword" class="input" placeholder="••••••••">
+                    </div>
+                    <button class="btn btn-secondary" type="submit">Update Password</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<style>
+    .profile-page .profile-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        align-items: start;
+    }
+
+    .profile-page .profile-panel {
+        transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+        .profile-page .profile-panel:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+        }
+
+    .profile-page .profile-panel-head {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .profile-page .profile-panel-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+        border-radius: 10px;
+        background: rgba(0, 0, 0, 0.04);
+        color: inherit;
+    }
+
+    .profile-page .profile-panel-divider {
+        height: 1px;
+        background: rgba(0, 0, 0, 0.08);
+        margin-bottom: 20px;
+    }
+
+    .profile-page .profile-avatar {
+        width: 64px;
+        height: 64px;
+        font-size: 22px;
+    }
+
+    .profile-page .input {
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+        .profile-page .input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
+        }
+
+    .profile-page .btn {
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+        .profile-page .btn:hover {
+            transform: translateY(-1px);
+        }
+
+    @@media (max-width: 768px) {
+        .profile-page .profile-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

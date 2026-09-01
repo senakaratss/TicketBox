@@ -1,0 +1,26 @@
+﻿@using TicketBox.Application.Features.Categories.Results
+@model List<GetCategoriesQueryResult>
+@{
+    var activeCategoryId = ViewData["ActiveCategoryId"] as int?;
+}
+
+<section class="section" style="padding-top:0;">
+    <div class="container">
+        <div class="section-head">
+            <h2>Popular Categories</h2><span class="muted" style="font-size:14px;">
+                Pick a mood, we'll find the event.
+            </span>
+        </div>
+        <div class="cat-grid">
+            @foreach (var c in Model)
+            {
+                var isActive = activeCategoryId == c.CategoryId;
+                <a class="cat-card @(isActive ? "active" : "")" href="/Event/EventList?categoryId=@c.CategoryId">
+                    <div class="ic">@c.Icon</div>
+                    <b>@c.CategoryName</b>
+                </a>
+            }
+        </div>
+
+    </div>
+</section>

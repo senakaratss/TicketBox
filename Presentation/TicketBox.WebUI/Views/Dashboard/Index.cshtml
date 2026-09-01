@@ -1,0 +1,97 @@
+﻿@model DashboardViewModel
+@{
+    ViewData["Title"] = null;
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div class="container mt-32">
+    <div class="welcome-banner">
+        <div>
+            <h2>Welcome back, @Model.Username 👋</h2>
+            <p class="muted">Here's what's coming up for you.</p>
+        </div>
+        <a class="btn btn-primary" href="/Events">Browse Events</a>
+    </div>
+
+    <div class="stats-row mb-24">
+        <div class="stat-card">
+            <div class="ic" style="background:var(--violet-tint); color:#C6B9FF;">🎟️</div>
+            <div><b>@Model.ActiveTicketCount</b><span>Active Tickets</span></div>
+        </div>
+        <div class="stat-card">
+            <div class="ic" style="background:var(--amber-tint); color:#FFCE7A;">📑</div>
+            <div><b>@Model.TotalBookingCount</b><span>Total Bookings</span></div>
+        </div>
+        <div class="stat-card">
+            <div class="ic" style="background:var(--success-tint); color:#7EEBC3;">📅</div>
+            <div><b>@Model.UpcomingBookingCount</b><span>Upcoming Events</span></div>
+        </div>
+    </div>
+</div>
+
+<section class="section" style="padding-top:0;">
+    <div class="container">
+        <div class="section-head"><h2>My Upcoming Events</h2><a class="btn btn-ghost btn-sm" href="/Account/MyBookings">View all →</a></div>
+        @if (Model.MyUpcomingBookings.Count > 0)
+        {
+            <div class="grid-events">
+                @foreach (var item in Model.MyUpcomingBookings)
+                {
+                    <a class="event-card" href="/Event/Details/@item.EventId">
+                        <div class="thumb">
+                            <img src="@item.ImageUrl" alt="@item.Title" loading="lazy">
+                            <span class="badge badge-violet cat-badge">@item.CategoryIcon @item.CategoryName</span>
+                            <span class="price-badge">₺@item.Price.ToString("N0")</span>
+                        </div>
+                        <div class="body">
+                            <h3>@item.Title</h3>
+                            <div class="meta-row">
+                                📅 @item.EventDate.ToString("dd MMM yyyy") &nbsp;·&nbsp;
+                                🕐 @item.EventDate.ToString("HH:mm")
+                            </div>
+                            <div class="meta-row">📍 @item.Location</div>
+                        </div>
+                        <div class="stub">
+                            <span class="mono muted" style="font-size:12px;">@item.RemainingTickets seats left</span>
+                            <span class="btn btn-primary btn-sm">View Details</span>
+                        </div>
+                    </a>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="empty-state"><div class="ic">🗓️</div>No upcoming events yet — go find one you like.</div>
+        }
+    </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+    <div class="container">
+        <div class="section-head"><h2>My Active Tickets</h2><a class="btn btn-ghost btn-sm" href="/Account/MyTickets">View all →</a></div>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Event</th><th>Date</th><th>Seat</th><th></th></tr></thead>
+                <tbody>
+                    @foreach (var t in Model.MyActiveTickets)
+                    {
+
+                        <tr class="row-hover">
+                            <td><div class="td-title">@t.EventName</div><div class="td-sub">@t.EventLocation</div></td>
+                            <td>@t.EventDate.ToString("dd MMM yyyy")</td>
+                            <td class="mono">@(string.IsNullOrEmpty(t.SeatNumber) ? "General Admission" : t.SeatNumber)</td>
+                            <td style="text-align:right;"><a class="btn btn-secondary btn-sm" href="/Ticket/Details/@t.TicketId">View Ticket</a></td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+
+@await Component.InvokeAsync("_CategoryGridComponentPartial")
+
+
+@await Component.InvokeAsync("_FeaturedEventsComponentPartial")

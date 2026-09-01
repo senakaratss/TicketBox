@@ -1,0 +1,49 @@
+﻿@using TicketBox.Application.Features.Bookings.Results
+@model List<GetMyBookingsQueryResult>
+@{
+    ViewData["Title"] = "My Bookings";
+    ViewData["ActiveNav"] = "MyBookings";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<section class="section">
+    <div class="container">
+        <span class="eyebrow">HISTORY</span>
+        <h1 class="mt-16 mb-24" style="font-size:32px;">My Bookings</h1>
+
+        @if (Model.Count == 0)
+        {
+            <div class="empty-state"><div class="ic">📑</div>No bookings yet.</div>
+        }
+        else
+        {
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr><th>Event</th><th>Booking Date</th><th>Event Date</th><th>Qty</th><th>Ticket</th><th>Details</th></tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            
+                                <tr class="row-hover">
+                                    <td><div class="td-title">@item.EventName</div><div class="td-sub">@item.EventLocation</div></td>
+                                    <td>@item.BookingDate.ToString("dd MMM yyyy")</td>
+                                    <td>@item.EventDate.ToString("dd MMM yyyy")</td>
+                                    <td>@item.TicketQuantity</td>
+                                    <td>
+                                    <a class="btn btn-secondary btn-sm" href="/Ticket/GetTicketsByBooking/@item.BookingId">Ticket</a>
+                                       
+                                           @*  <span class="muted" style="font-size:12.5px;">—</span> *@
+                                    </td>
+                                    <td><a class="btn btn-ghost btn-sm" href="/Event/Details/@item.EventId">Details</a></td>
+                                </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</section>
+
+

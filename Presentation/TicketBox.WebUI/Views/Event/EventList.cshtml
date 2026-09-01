@@ -1,0 +1,93 @@
+﻿@using TicketBox.Application.Features.Events.Results
+@model List<GetEventsQueryResult>
+@{
+    ViewData["Title"] = "Events";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<style>
+    @@media(max-width:900px) {
+        .filters-grid {
+            grid-template-columns: 1fr 1fr !important;
+        }
+    }
+
+    @@media(max-width:560px) {
+        .filters-grid {
+            grid-template-columns: 1fr !important;
+        }
+    }</style>
+
+<section class="section" style="padding-bottom:24px;">
+    <div class="container">
+        <span class="eyebrow">BROWSE</span>
+        <h1 class="mt-16" style="font-size:38px;">Discover Events</h1>
+        <p class="muted mt-8" style="max-width:520px;">@Model.Count events matching your filters.</p>
+
+        <form method="get" class="panel mt-24" style="padding:20px;">
+            <div class="filters-grid" style="display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr auto; gap:12px;">
+                <input name="search" class="input" placeholder="Search events…" >
+
+                <select asp-items="@ViewBag.Categories" name="categoryId" class="input" onchange="this.form.submit()">
+                    <option value="">All Categories</option>
+                </select>
+
+                <input type="date" name="date" class="input" onchange="this.form.submit()">
+
+                <select name="location" class="input" onchange="this.form.submit()">
+                    <option value="">All Locations</option>
+                    <option value="Antalya">Antalya</option>
+                    <option value="Istanbul">İstanbul</option>
+                    <option value="Ankara">Ankara</option>
+                    <option value="İzmir">İzmir</option>
+                </select>
+
+                <div class="flex-gap">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                    <a class="btn btn-secondary" href="/Events">Reset</a>
+                </div>
+            </div>
+        </form>
+
+
+        <div class="mt-24">
+            @await Component.InvokeAsync("_CategoryGridComponentPartial")
+        </div>
+    </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+    <div class="container">
+        @if (Model.Count > 0)
+        {
+            <div class="grid-events">
+                @foreach (var item in Model)
+                {
+                    <a class="event-card" href="/Event/Details/@item.EventId">
+                        <div class="thumb">
+                            <img src="@item.ImageUrl" alt="@item.Title" loading="lazy">
+                            <span class="badge badge-violet cat-badge">@item.CategoryName</span>
+                            <span class="price-badge">₺@item.Price.ToString("N0")</span>
+                        </div>
+                        <div class="body">
+                            <h3>@item.Title</h3>
+                            <div class="meta-row">
+                                📅 @item.EventDate.ToString("dd MMM yyyy") &nbsp;·&nbsp;
+                                🕐 @item.EventDate.ToString("HH:mm")
+                            </div>
+                            <div class="meta-row">📍 @item.Location</div>
+                        </div>
+                        <div class="stub">
+                            <span class="mono muted" style="font-size:12px;">@item.RemainingTickets seats left</span>
+                            <span class="btn btn-primary btn-sm">View Details</span>
+                        </div>
+                    </a>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="empty-state"><div class="ic">🔍</div>No events match these filters — try widening your search.</div>
+        }
+    </div>
+</section>
+

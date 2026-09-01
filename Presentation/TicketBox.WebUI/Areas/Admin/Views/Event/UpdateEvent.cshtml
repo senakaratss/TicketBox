@@ -1,0 +1,137 @@
+﻿@using TicketBox.Application.Features.Events.Results
+@model GetEventByIdQueryResult
+@{
+    ViewData["Title"] = "Edit Event";
+    ViewData["Subtitle"] = "Update this event listing";
+    ViewData["ActiveNav"] = "Events";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="panel" style="max-width:1040px; margin:0 auto; width:100%;">
+    <form method="post">
+        <input type="hidden" asp-for="EventId"/>
+        <div class="flex-gap" style="justify-content:space-between; align-items:flex-start; margin-bottom:20px;">
+            <div>
+                <h3 style="margin:0; font-family:'Space Grotesk', sans-serif; font-size:15px;">Event details</h3>
+                <p class="muted" style="font-size:13px; margin-top:4px;">Basic info shown on the public event page.</p>
+            </div>
+            <div class="field" style="width:180px; margin:0;">
+                <label>Status</label>
+                <select class="input" asp-for="Status">
+                    <option value="true">🟢 Active</option>
+                    <option value="false">⚪ Inactive</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row-3">
+            <div class="field">
+                <label>Event title</label>
+                <input class="input" asp-for="Title" placeholder="Wave Sessions Festival">
+            </div>
+            <div class="field">
+                <label>Category</label>
+                <select class="input" asp-for="CategoryId" asp-items="@ViewBag.Categories">
+                    <option value="">-- Select a category --</option>
+                </select>
+            </div>
+            <div class="field">
+                <label>Price (₺)</label>
+                <input class="input" type="number" asp-for="Price" placeholder="500">
+            </div>
+        </div>
+
+        <hr class="dashed" style="margin:24px 0;">
+
+        <h3 style="margin:0 0 16px; font-family:'Space Grotesk', sans-serif; font-size:15px;">Schedule &amp; venue</h3>
+
+        <div class="form-row-3">
+            <div class="field">
+                <label>Date</label>
+                <input class="input" type="datetime-local" asp-for="EventDate">
+            </div>
+            <div class="field">
+                <label>Capacity</label>
+                <input class="input" type="number" asp-for="Capacity" placeholder="1000">
+            </div>
+            <div class="field">
+                <label>Location</label>
+                <input class="input" asp-for="Location" placeholder="Antalya Arena, Antalya">
+            </div>
+        </div>
+
+        <div class="form-row-3">
+            <div class="field">
+                <label>Organizer</label>
+                <input class="input" asp-for="Organizer" placeholder="Coastline Live Events">
+            </div>
+            <div class="field" style="grid-column: span 2;">
+                <label>Koltuk Seçimi</label>
+
+                <label class="seat-switch">
+                    <input type="checkbox" asp-for="HasSeatSelection">
+                    <span class="seat-slider"></span>
+
+                    <span class="seat-switch-text">
+                        Koltuk seçimi aktif
+                    </span>
+                </label>
+
+                <small class="muted" style="display:block; margin-top:8px;">
+                    Koltuk seçimi aktifse bu etkinlik 32 koltuklu salon düzenini kullanır.
+                    Kapasite <strong>32</strong> olmalıdır.
+                </small>
+            </div>
+        </div>
+
+        <hr class="dashed" style="margin:24px 0;">
+
+        <h3 style="margin:0 0 16px; font-family:'Space Grotesk', sans-serif; font-size:15px;">Media &amp; description</h3>
+
+        <div class="form-row-3">
+            <div class="field" style="grid-column: span 2;">
+                <label>Cover image URL</label>
+                <input class="input" asp-for="ImageUrl" placeholder="https://…">
+            </div>
+
+            <div class="field" id="cover-preview-field" style="display:none;">
+                <label>Preview</label>
+                <div style="width:100%; height:110px; border-radius:10px; overflow:hidden; background:var(--surface-3);">
+                    <img id="cover-preview" src="" alt="Cover preview" style="width:100%; height:100%; object-fit:cover; display:block;">
+                </div>
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Description</label>
+            <textarea class="input" asp-for="Description" rows="5" placeholder="What makes this event worth going to?" style="resize:vertical; min-height:110px;"></textarea>
+        </div>
+
+        <div class="flex-gap mt-24">
+            <button type="submit" class="btn btn-primary">Add Event</button>
+            <a class="btn btn-ghost" href="/Admin/Events">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Purely cosmetic: live-preview the cover image URL, pre-filled from the current value. No backend/controller changes.
+    (function () {
+        var input = document.querySelector('[name="ImageUrl"]');
+        var wrap = document.getElementById('cover-preview-field');
+        var img = document.getElementById('cover-preview');
+        if (!input) return;
+
+        function syncPreview() {
+            var val = input.value.trim();
+            if (val.length > 0) {
+                img.src = val;
+                wrap.style.display = 'block';
+            } else {
+                wrap.style.display = 'none';
+            }
+        }
+
+        input.addEventListener('input', syncPreview);
+        syncPreview(); // show existing image on page load
+    })();
+</script>

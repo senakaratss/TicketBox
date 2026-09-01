@@ -1,0 +1,27 @@
+﻿@using TicketBox.Application.Features.Categories.Results
+@model GetCategoryByIdQueryResult
+@{
+    ViewData["Title"] = "Edit Category";
+    ViewData["Subtitle"] = "Create a new event category";
+    ViewData["ActiveNav"] = "Categories";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="panel" style="max-width:480px;">
+    <form method="post">
+        <input type="hidden" asp-for="CategoryId"/>
+        <div class="field">
+            <label>Icon (emoji)</label>
+            <input class="input" asp-for="Icon" style="max-width:120px;">
+        </div>
+        <div class="field">
+            <label>Name</label>
+            <input class="input" asp-for="CategoryName">
+        </div>
+        <div class="flex-gap mt-24">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <a class="btn btn-ghost" href="/Admin/Category/CategoryList">Cancel</a>
+        </div>
+    </form>
+</div>
+

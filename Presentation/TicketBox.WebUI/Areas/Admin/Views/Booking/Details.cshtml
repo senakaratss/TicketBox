@@ -1,0 +1,52 @@
+﻿@using TicketBox.Application.Features.Bookings.Results
+@model GetBookingByIdQueryResult
+@{
+    ViewData["Title"] = "Booking " + Model.BookingId;
+    ViewData["Subtitle"] = "Booking details";
+    ViewData["ActiveNav"] = "Bookings";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+}
+
+<a class="btn btn-ghost btn-sm mb-16" href="/Admin/Booking/BookingList">← Back to bookings</a>
+
+<div class="panel" style="max-width:640px;">
+    <div class="flex-gap mb-24">
+        <img src="@Model.EventImageUrl" class="thumb-sm" style="width:64px; height:64px;" alt="@Model.EventName">
+        <div>
+            <h3 style="font-size:18px;">@Model.EventName</h3>
+            <div class="muted" style="font-size:13px;">@Model.EventDate.ToString("dd MMM yyyy") · @Model.EventLocation</div>
+        </div>
+    </div>
+
+    <hr class="dashed">
+
+    <div class="flex-between" style="padding:10px 0;">
+        <span class="muted">Booking number</span><span class="mono">@Model.BookingId</span>
+    </div>
+    <div class="flex-between" style="padding:10px 0;">
+        <span class="muted">Customer</span><span>@Model.UserFullName (@Model.UserEmail)</span>
+    </div>
+    <div class="flex-between" style="padding:10px 0;">
+        <span class="muted">Booking date</span><span>@Model.BookingDate.ToString("dd MMM yyyy")</span>
+    </div>
+    <div class="flex-between" style="padding:10px 0;">
+        <span class="muted">Quantity</span><span>@Model.TicketQuantity</span>
+    </div>
+    <div class="flex-between" style="padding:10px 0;align-items:flex-start">
+        <span class="muted">Ticket serial</span>
+        <div style="display:flex; flex-direction:column; gap:6px; text-align:right;">
+        @foreach (var serial in Model.TicketSerials)
+        {
+            <span class="mono">
+                @serial
+            </span>
+        }
+        </div>
+    </div>
+    <div class="flex-between" style="padding:10px 0; font-weight:700; font-size:16px; border-top:1px dashed var(--border-strong); margin-top:6px;">
+        <span>Total</span><span>₺@Model.TotalPrice.ToString("N0")</span>
+    </div>
+</div>
+
+

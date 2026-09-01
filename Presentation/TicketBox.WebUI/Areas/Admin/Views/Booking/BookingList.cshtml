@@ -1,0 +1,44 @@
+﻿@using TicketBox.Application.Features.Bookings.Results
+@model List<GetBookingsQueryResult>
+
+@{
+    ViewData["Title"] = "Booking Management";
+    ViewData["Subtitle"] = "Track and review customer bookings";
+    ViewData["ActiveNav"] = "Bookings";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="panel">
+    <div class="flex-between mb-16">
+        <span class="muted" style="font-size:14px;">@Model.Count bookings</span>
+    </div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr><th>Booking #</th><th>Customer</th><th>Event</th><th>Booking Date</th><th>Qty</th><th>Total Price</th><th></th></tr>
+            </thead>
+            <tbody>
+                @foreach (var b in Model)
+                {
+                    <tr class="row-hover">
+                        <td class="mono">BK-@b.BookingId</td>
+                        <td>
+                            <div class="td-title">@b.UserFullName</div>
+                            <div class="td-sub">@b.UserEmail</div>
+                        </td>
+                        <td class="td-title">@b.EventName</td>
+                        <td>@b.BookingDate.ToString("dd MMM yyyy")</td>
+                        <td>@b.TicketQuantity</td>
+                        <td>@b.TotalPrice.ToString("N0")</td>
+                        <td style="text-align:right;">
+                            <a class="btn btn-secondary btn-sm" href="/Admin/Booking/Details/@b.BookingId">View</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
