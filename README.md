@@ -108,7 +108,7 @@ Kimlik doğrulama, **ASP.NET Core Identity** ile **Cookie Authentication** üzer
 
 ## 🖼 Ekran Görüntüleri
 
-| <img src="https://github.com/user-attachments/assets/418c0162-54c6-441f-945d-a108f48f9cd1" width="260"/> | <img src="https://github.com/user-attachments/assets/95755432-3866-4dc8-9b9d-d612df4d7279" width="260"/> | <img src="https://github.com/user-attachments/assets/52472bf3-86f5-4235-b8b2-7e2d0d650932" width="260"/> |
+| <img src="https://github.com/user-attachments/assets/6c3e60ae-3169-4965-a447-7e18609adf7a" width="260"/> | <img src="https://github.com/user-attachments/assets/95755432-3866-4dc8-9b9d-d612df4d7279" width="260"/> | <img src="https://github.com/user-attachments/assets/52472bf3-86f5-4235-b8b2-7e2d0d650932" width="260"/> |
 |:---:|:---:|:---:|
 | **Anasayfa** | **Kullanıcı Dashboard** | **Etkinlik Detayı** |
 
