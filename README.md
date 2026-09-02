@@ -144,7 +144,3 @@ Kimlik doğrulama, **ASP.NET Core Identity** ile **Cookie Authentication** üzer
 ---
 
 <p align="center">❤️ ile geliştirildi — TicketBox</p>
-
-
-
-<p align="center">❤️ ile geliştirildi — TicketBox</p>
