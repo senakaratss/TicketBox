@@ -1,3 +1,4 @@
+
 # 🎫 TicketBox
 
 **TicketBox**, kullanıcıların etkinlikleri görüntüleyip dijital bilet satın alabildiği, koltuklu ve koltuksuz etkinlik türlerini destekleyen, gerçek zamanlı koltuk seçimi sunan modern bir **etkinlik biletleme platformu**dur.
@@ -107,39 +108,43 @@ Kimlik doğrulama, **ASP.NET Core Identity** ile **Cookie Authentication** üzer
 ---
 
 ## 🖼 Ekran Görüntüleri
-
-| <img src="https://github.com/user-attachments/assets/6c3e60ae-3169-4965-a447-7e18609adf7a" width="260"/> | <img src="https://github.com/user-attachments/assets/95755432-3866-4dc8-9b9d-d612df4d7279" width="260"/> | <img src="https://github.com/user-attachments/assets/52472bf3-86f5-4235-b8b2-7e2d0d650932" width="260"/> |
+ 
+| <img src="https://github.com/user-attachments/assets/6ae9def3-1509-460f-89bf-5f823a988187" width="260"/> | <img src="https://github.com/user-attachments/assets/5c015f50-06df-4d9a-ab9c-2917982fdcac" width="260"/> | <img src="https://github.com/user-attachments/assets/8a206f73-8185-49e4-a2b8-c50793a8a51c" width="260"/> |
 |:---:|:---:|:---:|
 | **Anasayfa** | **Kullanıcı Dashboard** | **Etkinlik Detayı** |
-
-| <img src="https://github.com/user-attachments/assets/d3a73ff9-b3a2-410f-997a-7ec34f3592fd" width="260"/> | <img src="https://github.com/user-attachments/assets/d971839e-41f2-4737-8046-7c9436da5673" width="260"/> | <img src="https://github.com/user-attachments/assets/2cc2f249-b39c-4f7d-8b23-7de6aec0bde1" width="260"/> |
+ 
+| <img src="https://github.com/user-attachments/assets/907eb5c3-01f5-4f67-aa5a-8fa7813c2b2c" width="260"/> | <img src="https://github.com/user-attachments/assets/f5dd5a2a-8029-4e6a-9b4e-eef4529a0e4f" width="260"/> | <img src="https://github.com/user-attachments/assets/d41b1847-b1d0-43af-915c-eb7cc155eb9b" width="260"/> |
 |:---:|:---:|:---:|
 | **Koltuk Seçimi (SignalR)** | **Booking Oluşturma (Koltuklu)** | **Rezervasyonlarım** |
-
-| <img src="https://github.com/user-attachments/assets/4418aee9-3272-4504-b375-57026d658f8e" width="260"/> | <img src="https://github.com/user-attachments/assets/c3907efc-3298-481b-855a-f71484797870" width="260"/> | <img src="https://github.com/user-attachments/assets/964c58fc-c759-432a-9e16-b2313271eb9f" width="260"/> |
+ 
+| <img src="https://github.com/user-attachments/assets/d55d56aa-3b36-4ea3-a2f9-a94f13f07e16" width="260"/> | <img src="https://github.com/user-attachments/assets/e3726361-c6e8-4ed6-afd0-e7af59e4c34d" width="260"/> | <img src="https://github.com/user-attachments/assets/4a446519-d04f-46b4-ba06-24d9d68bede0" width="260"/> |
 |:---:|:---:|:---:|
 | **Booking'e ait Biletler** | **Biletlerim** | **Bilet Detayı (QR Kod)** |
-
-| <img src="https://github.com/user-attachments/assets/d26f70a1-c11e-405d-92c9-a8865c11d79d" width="260"/> | <img src="https://github.com/user-attachments/assets/e444c421-b63a-4677-a3c7-4adee881410c" width="260"/> | <img src="https://github.com/user-attachments/assets/2ac6171e-4ba0-4f43-8e61-f0dd1fdf521b" width="260"/> |
+ 
+| <img src="https://github.com/user-attachments/assets/c97cd98a-ac78-4321-a401-8dfcc14a9773" width="260"/> | <img src="https://github.com/user-attachments/assets/01cc38cb-e39b-4c42-b37b-2167523c8077" width="260"/> | <img src="https://github.com/user-attachments/assets/305a1443-3f39-4804-b93e-4c276b9019fb" width="260"/> |
 |:---:|:---:|:---:|
 | **Booking Oluşturma (Koltuksuz)** | **Etkinlik Listesi** | **Profilim** |
-
-| <img src="https://github.com/user-attachments/assets/cb592e07-8382-49d8-aaa0-496dc107d811" width="260"/> | <img src="https://github.com/user-attachments/assets/66a539e6-f63c-4f5e-9030-53f0a8c80b81" width="260"/> | <img src="https://github.com/user-attachments/assets/bbd44f17-3869-4135-8a8e-5a9cadbdc838" width="260"/> |
+ 
+| <img src="https://github.com/user-attachments/assets/d416d3b4-cdc9-41f5-bc28-2c27a141a56e" width="260"/> | <img src="https://github.com/user-attachments/assets/d8e76bd7-70a7-48ce-af76-93e24bcaf7fc" width="260"/> | <img src="https://github.com/user-attachments/assets/28f2521e-0187-4376-ae51-a343da6e5f14" width="260"/> |
 |:---:|:---:|:---:|
 | **Kayıt Ol** | **Giriş Yap** | **E-posta Onayı** |
-
-| <img src="https://github.com/user-attachments/assets/efe1b94c-8225-4062-a0c3-acbcd11e9572" width="260"/> | <img src="https://github.com/user-attachments/assets/6cb88abe-ad9a-4b02-827f-7945200d3ac1" width="260"/> | <img src="https://github.com/user-attachments/assets/02445f75-3800-40ea-8e43-e330b334c6c2" width="260"/> |
+ 
+| <img src="https://github.com/user-attachments/assets/35547d9b-292f-4cb5-8ef7-eaaa0f1b811e" width="260"/> | <img src="https://github.com/user-attachments/assets/d9f0827c-fd3b-45a7-bd74-6739bc8a546e" width="260"/> | <img src="https://github.com/user-attachments/assets/f52f4b6e-b463-4f29-b2c8-604510a1ec7f" width="260"/> |
 |:---:|:---:|:---:|
 | **Admin - Etkinlik Yönetimi** | **Admin - Etkinlik Düzenleme** | **Admin - Rezervasyon Yönetimi** |
-
-| <img src="https://github.com/user-attachments/assets/c71cff2b-e0b7-4a30-bb9c-5c879945f42d" width="260"/> | <img src="https://github.com/user-attachments/assets/e1ffa993-d2b8-4d41-be3c-7d61818b4563" width="260"/> | <img src="https://github.com/user-attachments/assets/d5674009-2188-4a5e-83ac-8343f48b0758" width="260"/> |
+ 
+| <img src="https://github.com/user-attachments/assets/13b17faf-cafa-4c23-86d1-af6b08988be6" width="260"/> | <img src="https://github.com/user-attachments/assets/37aee0d4-144d-4105-82a2-f89ab11425c9" width="260"/> | <img src="https://github.com/user-attachments/assets/8af72802-6340-43e1-a69a-74be9ab5e961" width="260"/> |
 |:---:|:---:|:---:|
 | **Admin - Rezervasyon Detayı** | **Admin - Bilet Yönetimi** | **Admin - Kullanıcı Yönetimi** |
-
-| <img src="https://github.com/user-attachments/assets/60fac1a9-2adc-4dd1-b44e-32ca486517cc" width="260"/> | <img src="https://github.com/user-attachments/assets/5f1ee3a0-0ab8-4d8b-9da7-18a0dd647924" width="260"/> | |
+ 
+| <img src="https://github.com/user-attachments/assets/2fac58db-a338-40ea-aafb-34809765e807" width="260"/> | <img src="https://github.com/user-attachments/assets/35432adc-ce1e-4dae-bfbe-2071e6d36026" width="260"/> | |
 |:---:|:---:|:---:|
 | **Admin - Kategori Yönetimi** | **Bilet E-postası** | |
-
+ 
 ---
+
+<p align="center">❤️ ile geliştirildi — TicketBox</p>
+
+
 
 <p align="center">❤️ ile geliştirildi — TicketBox</p>
